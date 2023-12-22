@@ -19,6 +19,18 @@ public class BossGameControl : MonoBehaviour
     public Animator GrinchAnimator;
 
 
+
+    public Animator GrinchVolumeAnimator;
+
+    public List<GameObject> targetsVolumes;
+
+    public HeartControl GrinchHeartControl;
+    public HeartControl PlayerHeartControl;
+
+
+    public GameObject GamePanel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +82,7 @@ public class BossGameControl : MonoBehaviour
         if (dialogueLines.Count <= 0)
         {
             GrinchAnimator.SetBool("speak", false);
+            StartCoroutine(Fight());
             return;
         }
 
@@ -98,5 +111,54 @@ public class BossGameControl : MonoBehaviour
     {
         Debug.Log("TypeText Complete");
         ShowScript();
+    }
+
+
+
+
+    private IEnumerator Fight()
+    {
+        GamePanel.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+
+        for(int num =0; num < 3; num++)
+        {
+
+            GrinchVolumeAnimator.SetInteger("fight", num+1);
+            yield return new WaitForSeconds(3f);
+            GrinchVolumeAnimator.SetInteger("fight", 0);
+
+            targetsVolumes[num].SetActive(true);
+
+            //запустить анимацию цифр
+
+            yield return new WaitForSeconds(3f);
+
+            if (targetsVolumes[num].GetComponent<TargetVolume>().isPlayerHere)
+            {
+                print("yes");
+                GrinchHeartControl.HealthDecrease();
+            }
+            else
+            {
+                print("no");
+                PlayerHeartControl.HealthDecrease();
+            }
+
+            targetsVolumes[num].SetActive(false);
+
+
+
+
+
+        }
+
+
+
+
+
+
+
     }
 }
