@@ -29,6 +29,9 @@ public class BossGameControl : MonoBehaviour
 
 
     public GameObject GamePanel;
+    public GameObject GameOverPanel;
+
+    private Coroutine FightCoroutine;
 
 
     // Start is called before the first frame update
@@ -82,7 +85,7 @@ public class BossGameControl : MonoBehaviour
         if (dialogueLines.Count <= 0)
         {
             GrinchAnimator.SetBool("speak", false);
-            StartCoroutine(Fight());
+            FightCoroutine=StartCoroutine(Fight());
             return;
         }
 
@@ -113,7 +116,23 @@ public class BossGameControl : MonoBehaviour
         ShowScript();
     }
 
+    public void Restart()
+    {
+        GameOverPanel.SetActive(false);
 
+        GrinchHeartControl.Reset();
+        PlayerHeartControl.Reset();
+
+
+
+        if (FightCoroutine != null)
+        {
+            StopCoroutine(FightCoroutine);
+            FightCoroutine = null;
+        }
+        FightCoroutine = StartCoroutine(Fight());
+
+    }
 
 
     private IEnumerator Fight()
@@ -122,12 +141,14 @@ public class BossGameControl : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
 
-        for(int num =0; num < 3; num++)
+        for(int num =0; num < 5; num++)
         {
-
+            
+            //GrinchVolumeAnimator.Play("bossfight"+num);
             GrinchVolumeAnimator.SetInteger("fight", num+1);
             yield return new WaitForSeconds(3f);
             GrinchVolumeAnimator.SetInteger("fight", 0);
+            //GrinchVolumeAnimator.enabled = false;
 
             targetsVolumes[num].SetActive(true);
 
@@ -154,7 +175,7 @@ public class BossGameControl : MonoBehaviour
 
         }
 
-
+        FightCoroutine = null;
 
 
 

@@ -44,6 +44,34 @@ public class HeartControl : MonoBehaviour
         heartsNum = hearts.Count;
     }
 
+    public void Reset()
+    {
+        
+        foreach(GameObject heart in hearts)
+        {
+            heart.SetActive(false);
+            
+        }
+        hearts.Clear();
+
+        for (int i = 0; i < StartHarts; i++)
+        {
+            GameObject imgObject = new GameObject("Heart");
+            RectTransform trans = imgObject.AddComponent<RectTransform>();
+            trans.transform.SetParent(heartPanel.transform);
+
+            trans.anchoredPosition = new Vector2(-offset * i, 0f);
+            trans.sizeDelta = new Vector2(50, 50);
+            Image image = imgObject.AddComponent<Image>();
+
+            image.sprite = heartSprite;
+
+            hearts.Add(imgObject);
+        }
+
+        heartsNum = hearts.Count;
+    }
+
     public void HealthDecrease()
     {
         hearts[heartsNum - 1].SetActive(false);

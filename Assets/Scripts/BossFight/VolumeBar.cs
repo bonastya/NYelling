@@ -70,12 +70,21 @@ public class VolumeBar : MonoBehaviour
                 //если нет то от предыдущего большего применяем гравитацию
                 else
                 {
-                    gravity = 0.2f;
+                    gravity = 0.5f;
                     visValue = oldVisValue;
                 }
 
+                if(visValue - gravity< maxVisualizationVal)
+                {
+                    marker.transform.SetLocalPositionAndRotation(new Vector3(0, visValue - gravity, 0), transform.localRotation);
 
-                marker.transform.SetLocalPositionAndRotation(new Vector3(0, visValue - gravity, 0), transform.localRotation);
+                }
+                else
+                {
+                    marker.transform.SetLocalPositionAndRotation(new Vector3(0, maxVisualizationVal, 0), transform.localRotation);
+
+                }
+
 
 
                 oldVisValue = visValue - gravity;

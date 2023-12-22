@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             volumeText.text = "Volume: " + (Math.Round(MicInput.MicLoudness * 10, 1));
+            //volumeText.text = "Volume: " + (((float)MicInput.MicLoudness)*10 * 5 / maxVolume);
         }
 
 

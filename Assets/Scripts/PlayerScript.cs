@@ -44,14 +44,15 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
-                gravity = 0.02f;
+                gravity = 0.05f;
+                //gravity = 0.02f;
             }
 
-            volume = transform.position.y+((float)MicInput.MicLoudness) * 10 / gameManager.maxVolume - gravity;
+            volume = transform.position.y+((float)MicInput.MicLoudness) * 10 * 5 / gameManager.maxVolume - gravity;
 
             if (volume < 34)
             {
-                transform.SetPositionAndRotation(transform.position + new Vector3(0, ((float)MicInput.MicLoudness) * 10 / gameManager.maxVolume - gravity, 0), transform.rotation);
+                transform.SetPositionAndRotation(transform.position + new Vector3(0, ((float)MicInput.MicLoudness) * 10*5 / gameManager.maxVolume - gravity, 0), transform.rotation);
 
             }
             else
